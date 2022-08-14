@@ -36,6 +36,15 @@ const App = () => {
       });
     };
     // Step 2.2 - Fill the grid
+    for (let w = 0; w < 2; w++) {
+      for (let i = 0; i < Items.length; i++) {
+        let position = -1;
+        while (position < 0 || tmpGrid[position].item !== null) {
+          position = Math.floor(Math.random() * (Items.length * 2));
+        }
+        tmpGrid[position].item = i;
+      }
+    }
 
     // Step 2.3 - add to state
     setGridItems(tmpGrid)
