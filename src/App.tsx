@@ -1,10 +1,21 @@
+import { useEffect, useState } from 'react';
 import * as C from './App.styles';
 import logoImage from './assets/devmemory_logo.png';
 import RestartIcon from './svgs/restart.svg';
 import { Button } from './components/button';
 import { InfoItem } from './components/infoItem';
+import { GridItemType } from './types/GridItemType';
+
 
 const App = () => {
+
+  const [playing, setPlaying] = useState<boolean>(false);
+  const [timeElapsed, setTimeElapsed] = useState<number>(0);
+  const [moveCount, setMoveCount] = useState<number>(0);
+  const [showCount, setShowCount] = useState<number>(0);
+  const [gridItems, setGridItems] = useState<GridItemType[]>([]);
+
+  useEffect(() => resetAndCreateGrid(), []);
 
   const resetAndCreateGrid = () => {
 
@@ -25,7 +36,9 @@ const App = () => {
         <Button label='Reiniciar' icon={RestartIcon} onClick={resetAndCreateGrid} />
       </C.Info>
       <C.GridArea>
-        ...
+        <C.Grid>
+
+        </C.Grid>
       </C.GridArea>
     </C.Container>
   );
