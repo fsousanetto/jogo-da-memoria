@@ -32,12 +32,11 @@ const App = () => {
   }, [playing, timeElapsed]);
 
   useEffect(() => {
-    if (shownCount == 2) {
+    if (shownCount === 2) {
       let opened = gridItems.filter(item => item.shown === true);
       if (opened.length === 2) {
-
-        // Verify 1 - if both are equal, make every "shown" permanent
         if (opened[0].item === opened[1].item) {
+          // Verify 1 - if both are equal, make every "shown" permanent
           let tmpGrid = [...gridItems];
           for (let i in tmpGrid) {
             if (tmpGrid[1].shown) {
@@ -47,17 +46,34 @@ const App = () => {
           }
           setGridItems(tmpGrid);
           setShownCount(0);
+        } else {
+          // Verify 2 - if they are NOT equal, close all "shown"
+          setTimeout(() => {
+            let tmpGrid = [...gridItems];
+            for (let i in tmpGrid) {
+              tmpGrid[i].shown = false;
+            }
+            setGridItems(tmpGrid);
+            setShownCount(0);
+          }, 1000);
         }
       }
+      setMoveCount(moveCount => moveCount + 1);
     }
   }, [shownCount, gridItems])
+
+  // Verify if game is over
+  useEffect(() => {
+    if (moveCount > 0 && gridItems.every(item => item.permanentShown === true)) {
+      setPlaying(false);
+    }
+  }, [moveCount, gridItems])
 
   const resetAndCreateGrid = () => {
     // Step 1 reset game
     setTimeElapsed(0);
     setMoveCount(0);
     setShownCount(0);
-    setGridItems([]);
 
     // Step 2 - Create grid
     // Step 2.1 - Create grid empty
